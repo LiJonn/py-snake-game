@@ -16,6 +16,3 @@ WHITE = pygame.Color(255, 255, 255)
 RED = pygame.Color(255, 0, 0)
 GREEN = pygame.Color(0, 255, 0)
 DARK_GRAY = pygame.Color(50, 50, 50)
-
-# Snake settings
-SNAKE_SPEED = 10

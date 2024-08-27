@@ -13,7 +13,8 @@ class Game:
         self.snake = Snake()
         self.fruit = Fruit(PLAY_AREA_X, PLAY_AREA_Y, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)
         self.running = True
-        self.high_score = 0  # Initialize the high score
+        self.high_score = 0
+        self.speed = 10  # Initial speed
 
     def run(self):
         while self.running:
@@ -24,6 +25,12 @@ class Game:
             # Check if the game should end
             if not self.running:
                 self.handle_game_over()
+
+            # Adjust speed based on the score
+            self.adjust_speed()
+
+            # Control the game's speed
+            self.fps.tick(self.speed)
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -57,16 +64,35 @@ class Game:
 
         self.snake.draw(self.game_window)
         self.fruit.draw(self.game_window)
-
-        # Show the current score
         show_score(self.game_window, 'Score', WHITE, 'times new roman', 20, self.snake.score)
-
-        # Show the high score with an offset
         show_score(self.game_window, 'Highest Score', WHITE, 'times new roman', 20, self.high_score, x_offset=150)
 
-
         pygame.display.update()
-        self.fps.tick(SNAKE_SPEED)
+
+
+    def adjust_speed(self):
+        # Adjust Speed of Snake Based on Score
+        speed_thresholds = [
+            (100, 12),
+            (200, 15),
+            (300, 28),
+            (400, 21),
+            (500, 24),
+            (600, 27),
+            (700, 30),
+            (800, 33),
+            (900, 36),
+        ]
+
+        # Default to the highest speed if no other thresholds match
+        self.speed = 40
+
+        # Find the appropriate speed based on the score
+        for threshold, speed in speed_thresholds:
+            if self.snake.score < threshold:
+                self.speed = speed
+                break
+
 
     def handle_game_over(self):
         # Update high score if the current score is greater
