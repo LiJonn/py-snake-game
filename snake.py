@@ -1,19 +1,20 @@
 import pygame
+import sys
 from settings import *
 
 class Snake:
     def __init__(self):
         self.position = [100, 50]
-        self.body = [[100, 50], [90, 50], [80, 50], [70, 50]]
+        self.body = [[100, 50], [80, 50], [60, 50], [40, 50]]  # Update spacing for larger size
         self.direction = 'RIGHT'
         self.change_to = self.direction
         self.score = 0
 
-        # Load the snake head and body images
+        # Load and scale the snake head and body images to the size
         self.head_image = pygame.image.load('./assets/image/snake_green_head.png')
-        self.head_image = pygame.transform.scale(self.head_image, (10, 10))
+        self.head_image = pygame.transform.scale(self.head_image, (20, 20)) # Scale to 20x20 pixels
         self.body_image = pygame.image.load('./assets/image/snake_green_body.png')
-        self.body_image = pygame.transform.scale(self.body_image, (10, 10))
+        self.body_image = pygame.transform.scale(self.body_image, (20, 20)) # Scale to 20x20 pixels
 
     def change_direction(self, new_direction):
         if new_direction == 'UP' and self.direction != 'DOWN':
@@ -42,7 +43,24 @@ class Snake:
         self.body.insert(0, list(self.position))
 
     def has_eaten_fruit(self, fruit_position):
-        return self.position == fruit_position
+
+        if(self.position == fruit_position): return True
+
+        fruit_range = [
+            [fruit_position[0]+10, fruit_position[1]],
+            [fruit_position[0]-10, fruit_position[1]],
+            [fruit_position[0], fruit_position[1]+10],
+            [fruit_position[0], fruit_position[1]-10],
+        ]
+
+        index = 0
+
+        while index < len(fruit_range):
+            if(self.position == fruit_range[index]): return True
+            index+=1
+
+        return False
+
 
     def has_collided_with_wall(self, play_area_x, play_area_y, play_area_width, play_area_height):
         if self.position[0] < play_area_x or self.position[0] >= play_area_x + play_area_width:
