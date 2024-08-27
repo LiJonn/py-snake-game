@@ -38,8 +38,12 @@ class Snake:
     def has_eaten_fruit(self, fruit_position):
         return self.position == fruit_position
 
-    def has_collided_with_wall(self):
-        return self.position[0] < 0 or self.position[0] > WINDOW_X-10 or self.position[1] < 0 or self.position[1] > WINDOW_Y-10
+    def has_collided_with_wall(self, play_area_x, play_area_y, play_area_width, play_area_height):
+        if self.position[0] < play_area_x or self.position[0] >= play_area_x + play_area_width:
+            return True
+        if self.position[1] < play_area_y or self.position[1] >= play_area_y + play_area_height:
+            return True
+        return False
 
     def has_collided_with_self(self):
         return self.position in self.body[1:]

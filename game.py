@@ -1,5 +1,4 @@
 import pygame
-import time
 from settings import *
 from snake import Snake
 from fruit import Fruit
@@ -12,7 +11,7 @@ class Game:
         pygame.display.set_caption('Snake Game')
         self.fps = pygame.time.Clock()
         self.snake = Snake()
-        self.fruit = Fruit()
+        self.fruit = Fruit(PLAY_AREA_X, PLAY_AREA_Y, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)
         self.running = True
 
     def run(self):
@@ -42,15 +41,20 @@ class Game:
 
     def update(self):
         self.snake.move()
-        if self.snake.has_collided_with_wall() or self.snake.has_collided_with_self():
+        if self.snake.has_collided_with_wall(PLAY_AREA_X, PLAY_AREA_Y, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT) or self.snake.has_collided_with_self():
             self.running = False  # End the game loop
         if self.snake.has_eaten_fruit(self.fruit.position):
             self.snake.grow()
             self.snake.increment_score()
-            self.fruit.respawn()
+            self.fruit.respawn()  # Correctly respawn the fruit
+
 
     def render(self):
         self.game_window.fill(BLACK)
+
+        # Draw the play area with a different background color
+        pygame.draw.rect(self.game_window, DARK_GRAY, (PLAY_AREA_X, PLAY_AREA_Y, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT))
+
         self.snake.draw(self.game_window)
         self.fruit.draw(self.game_window)
         show_score(self.game_window, 1, WHITE, 'times new roman', 20, self.snake.score)
@@ -64,5 +68,5 @@ class Game:
 
     def reset_game(self):
         self.snake = Snake()
-        self.fruit = Fruit()
+        self.fruit = Fruit(PLAY_AREA_X, PLAY_AREA_Y, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)
         self.running = True

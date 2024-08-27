@@ -13,7 +13,7 @@ def game_over(score):
     my_font = pygame.font.SysFont('times new roman', 50)
 
     # Display Game Over Message
-    game_over_surface = my_font.render('Your Score is : ' + str(score), True, RED)
+    game_over_surface = my_font.render('Your Score is : ' + str(score), True, WHITE)
     game_over_rect = game_over_surface.get_rect()
     game_over_rect.midtop = (WINDOW_X/2, WINDOW_Y/4)
     game_window.blit(game_over_surface, game_over_rect)

@@ -11,6 +11,6 @@ pip install pygame
 # Reference
 ```
 https://www.geeksforgeeks.org/snake-game-in-python-using-pygame-module/
-```
+
 https://www.pygame.org/docs/ref/key.html
 ```
