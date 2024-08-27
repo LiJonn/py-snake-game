@@ -9,6 +9,12 @@ class Snake:
         self.change_to = self.direction
         self.score = 0
 
+        # Load the snake head and body images
+        self.head_image = pygame.image.load('./assets/image/snake_green_head.png')
+        self.head_image = pygame.transform.scale(self.head_image, (10, 10))
+        self.body_image = pygame.image.load('./assets/image/snake_green_body.png')
+        self.body_image = pygame.transform.scale(self.body_image, (10, 10))
+
     def change_direction(self, new_direction):
         if new_direction == 'UP' and self.direction != 'DOWN':
             self.direction = 'UP'
@@ -52,5 +58,8 @@ class Snake:
         self.score += 10
 
     def draw(self, surface):
-        for pos in self.body:
-            pygame.draw.rect(surface, GREEN, pygame.Rect(pos[0], pos[1], 10, 10))
+        # Draw the head
+        surface.blit(self.head_image, (self.body[0][0], self.body[0][1]))
+        # Draw the body
+        for pos in self.body[1:]:
+            surface.blit(self.body_image, (pos[0], pos[1]))

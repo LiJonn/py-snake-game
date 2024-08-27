@@ -8,6 +8,11 @@ class Fruit:
         self.play_area_y = play_area_y
         self.play_area_width = play_area_width
         self.play_area_height = play_area_height
+
+         # Load the fruit image (e.g., apple)
+        self.image = pygame.image.load('./assets/image/apple_red.png')
+        self.image = pygame.transform.scale(self.image, (10, 10))  # Scale the image to fit the grid
+
         self.respawn()  # Initialize the position when the fruit is created
 
     def respawn(self):
@@ -16,4 +21,5 @@ class Fruit:
         self.position = [x, y]  # Update self.position directly
 
     def draw(self, surface):
-        pygame.draw.rect(surface, WHITE, pygame.Rect(self.position[0], self.position[1], 10, 10))
+        # pygame.draw.rect(surface, WHITE, pygame.Rect(self.position[0], self.position[1], 10, 10))
+        surface.blit(self.image, (self.position[0], self.position[1]))  # Draw the fruit image
