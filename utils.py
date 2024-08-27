@@ -2,21 +2,30 @@ import pygame
 import sys
 from settings import *
 
-def show_score(surface, choice, color, font, size, score):
+def show_score(surface, label, color, font, size, score, x_offset=0):
     score_font = pygame.font.SysFont(font, size)
-    score_surface = score_font.render('Score : ' + str(score), True, color)
+    score_surface = score_font.render(f'{label} : {score}', True, color)
     score_rect = score_surface.get_rect()
+    score_rect.topleft = (x_offset + 10, 10)
     surface.blit(score_surface, score_rect)
 
-def game_over(score):
+
+def game_over(score, high_score):
     game_window = pygame.display.get_surface()
-    my_font = pygame.font.SysFont('times new roman', 50)
+    my_font = pygame.font.SysFont('times new roman', 40)
 
     # Display Game Over Message
     game_over_surface = my_font.render('Your Score is : ' + str(score), True, WHITE)
+
     game_over_rect = game_over_surface.get_rect()
     game_over_rect.midtop = (WINDOW_X/2, WINDOW_Y/4)
     game_window.blit(game_over_surface, game_over_rect)
+
+    # # Display High Score
+    # high_score_surface = my_font.render('High Score : ' + str(high_score), True, WHITE)
+    # high_score_rect = high_score_surface.get_rect()
+    # high_score_rect.midtop = (WINDOW_X/2, WINDOW_Y/4 + 50)
+    # game_window.blit(high_score_surface, high_score_rect)
 
     # Display Restart and Quit Buttons
     button_font = pygame.font.SysFont('times new roman', 35)

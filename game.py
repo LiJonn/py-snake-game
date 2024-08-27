@@ -13,6 +13,7 @@ class Game:
         self.snake = Snake()
         self.fruit = Fruit(PLAY_AREA_X, PLAY_AREA_Y, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)
         self.running = True
+        self.high_score = 0  # Initialize the high score
 
     def run(self):
         while self.running:
@@ -48,7 +49,6 @@ class Game:
             self.snake.increment_score()
             self.fruit.respawn()  # Correctly respawn the fruit
 
-
     def render(self):
         self.game_window.fill(BLACK)
 
@@ -57,12 +57,23 @@ class Game:
 
         self.snake.draw(self.game_window)
         self.fruit.draw(self.game_window)
-        show_score(self.game_window, 1, WHITE, 'times new roman', 20, self.snake.score)
+
+        # Show the current score
+        show_score(self.game_window, 'Score', WHITE, 'times new roman', 20, self.snake.score)
+
+        # Show the high score with an offset
+        show_score(self.game_window, 'Highest Score', WHITE, 'times new roman', 20, self.high_score, x_offset=150)
+
+
         pygame.display.update()
         self.fps.tick(SNAKE_SPEED)
 
     def handle_game_over(self):
-        game_over(self.snake.score)
+        # Update high score if the current score is greater
+        if self.snake.score > self.high_score:
+            self.high_score = self.snake.score
+
+        game_over(self.snake.score, self.high_score)
         self.reset_game()
         self.run()
 
